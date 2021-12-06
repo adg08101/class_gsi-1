@@ -92,7 +92,7 @@ public final class Setup {
 
 	/**
 	 * Open new url
-	 * 
+	 *
 	 * @param url
 	 */
 	public static void openUrl(String url) {
