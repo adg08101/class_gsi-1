@@ -21,4 +21,3 @@ Feature: Google search
     Examples:
       | animal |
       | cat    |
-	  
