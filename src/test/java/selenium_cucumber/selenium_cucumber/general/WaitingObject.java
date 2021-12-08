@@ -63,7 +63,6 @@ public class WaitingObject {
 		ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element1);
 		String mss = "Element " + element1 + " not found";
 		executeExpectedCondition(expectedCondition, mss, time);
-
 	}
 
 	/**

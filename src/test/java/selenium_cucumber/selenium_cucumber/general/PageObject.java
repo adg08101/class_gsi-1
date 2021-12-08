@@ -1,24 +1,21 @@
 package selenium_cucumber.selenium_cucumber.general;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PageObject {
 	private final WebDriver driver;
 	protected String urlPath = "";
 	private final String spinningElement = "//div[contains(@class,'ant-spin-spinning')]";
+	private double waitTimeFactor;
 
 	public PageObject() {
-
+		setWaitTimeFactor(10);
 		this.driver = Setup.getDriver();
 		//TODO: Study https://www.browserstack.com/guide/page-object-model-in-selenium
 		PageFactory.initElements(this.driver, this);
@@ -40,6 +37,11 @@ public class PageObject {
 	@SuppressWarnings("unused")
 	protected void clicksOnButton(By by) {
 		getWebElement(by).click();
+	}
+
+	@SuppressWarnings("unused")
+	public void print(String message) {
+		System.out.println(message);
 	}
 
 	public String getCurrentUrl() {
@@ -78,17 +80,27 @@ public class PageObject {
 		waitForSpinningElementDisappear();
 		waitForElementToBePresent(by);
 		HashMap<String, WebElement> list = new HashMap<>();
-
 		if (!Objects.isNull(by)) {
-			WebElement e = this.getWebElement(by);
-
-			WebElement el2 = e.findElement(By.xpath("span[2]"));
-			list.put(el2.getText(), e);
+			WebElement element = this.getWebElement(by);
+			list.put(element.getText(), element);
 		}
 		return list;
 	}
 
 	public void waitForElementToBePresent(By by) {
+		waitFactorTime(0);
 		Setup.getDriverWait().until(ExpectedConditions.presenceOfElementLocated(by));
+	}
+
+	public void waitFactorTime(double extraFactor) {
+		Setup.getWait().thread((long) ((long) Setup.getWaitTime() * getWaitTimeFactor() * extraFactor));
+	}
+
+	public double getWaitTimeFactor() {
+		return waitTimeFactor;
+	}
+
+	public void setWaitTimeFactor(double waitTimeFactor) {
+		this.waitTimeFactor = waitTimeFactor;
 	}
 }

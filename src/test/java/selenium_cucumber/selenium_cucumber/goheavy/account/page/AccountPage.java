@@ -16,7 +16,7 @@ public class AccountPage extends PageObject {
 		this.urlPath = "accountsettings";
 	}
 
-	public WebElement getFrom() {
+	public WebElement getForm() {
 		return this.getWebElement(By.cssSelector("#account-settings"));
 	}
 
@@ -27,7 +27,8 @@ public class AccountPage extends PageObject {
 		photo.sendKeys(url);
 
 		// Scrolling the page to get the element activated
-		String formScroll = "//*[@id=\"account-settings\"]/ancestor::div[@class=\"templateStyles__ContentDiv-sc-144t9h2-1 bcVeZj\"]";
+		String formScroll = "//*[@id=\"account-settings\"]/ancestor::div[@class=\"templateStyles__" +
+				"ContentDiv-sc-144t9h2-1 bcVeZj\"]";
 		this.scroll(formScroll, By.id("addressStateId"));
 
 		// Getting State
@@ -36,7 +37,8 @@ public class AccountPage extends PageObject {
 
 		// Getting State menu
 		List<WebElement> addressStateId_list = this.getWebElements(By.xpath(
-				"//div[@id='addressStateId_list']/ancestor::div[contains(@class,'ant-select-dropdown')]/descendant::div[contains(@class,'ant-select-item ant-select-item-option')]/span"));
+				"//div[@id='addressStateId_list']/ancestor::div[contains(@class,'ant-select-dropdown')]/descendant::" +
+						"div[contains(@class,'ant-select-item ant-select-item-option')]/span"));
 		int v = addressStateId_list.size();
 		WebElement address = addressStateId_list.get(new Random().nextInt(v));
 		Setup.getActions().moveToElement(address).click().perform();

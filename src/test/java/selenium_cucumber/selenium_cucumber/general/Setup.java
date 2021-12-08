@@ -16,7 +16,7 @@ import java.util.Properties;
 
 public final class Setup {
 	private static WebDriver driver;
-	private static final HashMap<String, Object> store = new HashMap<String, Object>();
+	private static final HashMap<String, Object> store = new HashMap<>();
 	private static JavascriptExecutor jsExecutor;
 	private static Actions actions;
 	private static WaitingObject waitingObject;
@@ -28,14 +28,14 @@ public final class Setup {
 		System.setProperty("webdriver.chrome.silentOutput", "true");
 		System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
 		ChromeOptions options = new ChromeOptions();
-		HashMap<String, Integer> timeouts = new HashMap<String, Integer>();
+		HashMap<String, Integer> timeouts = new HashMap<>();
 		timeouts.put("implicit", 50);
 		timeouts.put("pageLoad", 5000000);
 		timeouts.put("script", 300000);
 		options.setCapability("timeouts", timeouts);
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
-		setWaitTime(20);
+		setWaitTime(1500);
 		setDriverWait(new WebDriverWait(getDriver(), getWaitTime()));
 		initObject();
 	}
@@ -123,6 +123,9 @@ public final class Setup {
 			pop.load(input);
 		} catch (java.io.IOException ignored) { }
 		setKeyValueStore("defaultProperties", pop);
-		setKeyValueStore("avatar", new File(Setup.class.getResource("/avatar.png").getFile()).getAbsolutePath());
+		int number = (int) (Math.random() * 4 + 1);
+		String avatar_name = "/avatar(" + number + ").png";
+		setKeyValueStore("avatar", new File(Setup.class.getResource(avatar_name).getFile())
+				.getAbsolutePath());
 	}
 }

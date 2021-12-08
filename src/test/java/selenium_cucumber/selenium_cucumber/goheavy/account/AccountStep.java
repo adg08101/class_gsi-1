@@ -3,6 +3,8 @@ package selenium_cucumber.selenium_cucumber.goheavy.account;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium_cucumber.selenium_cucumber.general.Setup;
 import selenium_cucumber.selenium_cucumber.general.Steps;
 import selenium_cucumber.selenium_cucumber.goheavy.account.page.AccountPage;
@@ -14,36 +16,40 @@ import static org.junit.Assert.fail;
 public class AccountStep extends Steps {
 
 	private final AccountPage accountPage;
+	private final String headerXpath = "//span[text()='Account Settings']";
 
 	public AccountStep() {
 		accountPage = new AccountPage();
-
 	}
 
 	@Override
 	public void checkPage() {
+		accountPage.waitForSpinningElementDisappear();
+		accountPage.waitForElementToBePresent(By.xpath(getHeaderXpath()));
 		String path = accountPage.getPagePath().toLowerCase();
 		Assert.assertTrue(" The path provided is not correct in the url. path: " + path,
-				accountPage.getCurrentUrl().toLowerCase().contains(path));
+				Setup.getDriverWait().until(ExpectedConditions.urlContains(path)));
 		try {
-			accountPage.waitForSpinningElementDisappear();
-			accountPage.getFrom();
+			accountPage.getForm();
 		} catch (Exception e) {
 			fail("The view do not match with Account page.");
 		}
 	}
 
 	public void openAccountSetting() {
-		HashMap<String, WebElement> li = accountPage
-				.getMenu(By.xpath("//span[@aria-label='setting']/ancestor::span[@class='ant-menu-title-content']"));
-		WebElement setting = li.get("Settings");
-		Setup.getActions().moveToElement(setting).click().perform();
-		Setup.getWait().thread(400);
-		accountPage.waitForSpinningElementDisappear();
-		WebElement el2 = setting.findElement(By.xpath("//span[@aria-label='profile']/ancestor::li[@role='menuitem']"));
+		By menuItem = By.xpath("//span[@aria-label='setting']/ancestor::span[@class='ant-menu-title-content']/" +
+				"span[text()='Settings']");
+		By AccountSettingsItem = By.xpath("//span[@aria-label='profile']/ancestor::li[@role='menuitem']/" +
+				"descendant::span[text()='Account Settings']");
+
+		accountPage.waitForElementToBePresent(menuItem);
+		HashMap<String, WebElement> li = accountPage.getMenu(menuItem);
+		WebElement settings = li.get("Settings");
+		Setup.getActions().moveToElement(settings).click().perform();
+		accountPage.waitForElementToBePresent(AccountSettingsItem);
+		WebElement el2 = settings.findElement(AccountSettingsItem);
 		Setup.getActions().moveToElement(el2).click().perform();
 		accountPage.waitForSpinningElementDisappear();
-		Setup.getWait().thread(4000);
 	}
 
 	public void fillValidData() {
@@ -59,7 +65,6 @@ public class AccountStep extends Steps {
 	}
 
 	public void checkUpdateMessage(String string) {
-
 		WebElement notificationEle = accountPage.getPopupMessage();
 		Setup.getWait().thread(2);
 		WebElement parent = notificationEle
@@ -72,5 +77,9 @@ public class AccountStep extends Steps {
 		// Checking that popup is in the right
 		String style = parent.getAttribute("style");
 		Assert.assertTrue("Popup is not in the right corner.", style.contains("right: 0px"));
+	}
+
+	public String getHeaderXpath() {
+		return headerXpath;
 	}
 }
