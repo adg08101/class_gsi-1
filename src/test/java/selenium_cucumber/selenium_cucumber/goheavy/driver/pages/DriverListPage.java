@@ -6,7 +6,7 @@ public class DriverListPage extends PageObject {
 
 	public DriverListPage() {
 		super();
-		this.urlpath = "/driver";
+		this.urlPath = "/driver";
 
 	}
 

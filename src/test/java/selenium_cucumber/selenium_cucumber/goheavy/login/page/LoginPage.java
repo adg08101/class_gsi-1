@@ -1,7 +1,6 @@
 package selenium_cucumber.selenium_cucumber.goheavy.login.page;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -16,7 +15,7 @@ public class LoginPage extends PageObject {
 
 	public LoginPage() {
 		super();
-		this.urlpath = "login";
+		this.urlPath = "login";
 
 	}
 	
