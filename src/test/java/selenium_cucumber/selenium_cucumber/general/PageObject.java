@@ -15,7 +15,7 @@ public class PageObject {
 	private double waitTimeFactor;
 
 	public PageObject() {
-		setWaitTimeFactor(10);
+		setWaitTimeFactor(20);
 		this.driver = Setup.getDriver();
 		//TODO: Study https://www.browserstack.com/guide/page-object-model-in-selenium
 		PageFactory.initElements(this.driver, this);

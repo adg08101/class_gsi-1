@@ -3,12 +3,10 @@ package selenium_cucumber.selenium_cucumber.goheavy.account;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium_cucumber.selenium_cucumber.general.Setup;
 import selenium_cucumber.selenium_cucumber.general.Steps;
 import selenium_cucumber.selenium_cucumber.goheavy.account.page.AccountPage;
-
 import java.util.HashMap;
 
 import static org.junit.Assert.fail;
@@ -16,7 +14,6 @@ import static org.junit.Assert.fail;
 public class AccountStep extends Steps {
 
 	private final AccountPage accountPage;
-	private final String headerXpath = "//span[text()='Account Settings']";
 
 	public AccountStep() {
 		accountPage = new AccountPage();
@@ -80,6 +77,6 @@ public class AccountStep extends Steps {
 	}
 
 	public String getHeaderXpath() {
-		return headerXpath;
+		return accountPage.getHeaderTextXpath();
 	}
 }

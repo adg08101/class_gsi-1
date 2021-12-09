@@ -20,6 +20,10 @@ public class AccountPage extends PageObject {
 		return this.getWebElement(By.cssSelector("#account-settings"));
 	}
 
+	public String getHeaderTextXpath() {
+		return "//span[text()='Account Settings']";
+	}
+
 	public void getFromElements() {
 		// Setting avatar
 		WebElement photo = this.getWebElement(By.xpath("//input[@type='file']"));
