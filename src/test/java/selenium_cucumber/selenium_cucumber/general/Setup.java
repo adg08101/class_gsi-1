@@ -1,5 +1,6 @@
 package selenium_cucumber.selenium_cucumber.general;
 
+import com.github.javafaker.Faker;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,6 +23,23 @@ public final class Setup {
 	private static WaitingObject waitingObject;
 	private static WebDriverWait driverWait;
 	private static int waitTime;
+	private static Faker faker;
+
+	public static Faker getFaker() {
+		return faker;
+	}
+
+	public static void setFaker(Faker faker) {
+		Setup.faker = faker;
+	}
+
+	public static JavascriptExecutor getJsExecutor() {
+		return jsExecutor;
+	}
+
+	public static void setJsExecutor(JavascriptExecutor jsExecutor) {
+		Setup.jsExecutor = jsExecutor;
+	}
 
 	@Before
 	public void InitSetup() {
@@ -35,7 +53,8 @@ public final class Setup {
 		options.setCapability("timeouts", timeouts);
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
-		setWaitTime(1500);
+		//TODO: Explain Accessors methods
+		setWaitTime(2500);
 		setDriverWait(new WebDriverWait(getDriver(), getWaitTime()));
 		initObject();
 	}
@@ -43,7 +62,8 @@ public final class Setup {
 	private static void initObject() {
 		waitingObject = new WaitingObject(driver);
 		actions = new Actions(driver);
-		jsExecutor = (JavascriptExecutor) driver;
+		setJsExecutor((JavascriptExecutor) driver);
+		setFaker(new Faker());
 		loadDefaultProperties();
 	}
 
@@ -64,7 +84,7 @@ public final class Setup {
 	}
 
 	public static Object executeScript(String script,Object... arg) {
-		return jsExecutor.executeScript(script,arg);
+		return getJsExecutor().executeScript(script,arg);
 	}
 
 	public static Actions getActions() {
@@ -122,10 +142,16 @@ public final class Setup {
 		try {
 			pop.load(input);
 		} catch (java.io.IOException ignored) { }
+
+		//TODO: Explain random loads
 		setKeyValueStore("defaultProperties", pop);
 		int number = (int) (Math.random() * 4 + 1);
 		String avatar_name = "/avatar(" + number + ").png";
 		setKeyValueStore("avatar", new File(Setup.class.getResource(avatar_name).getFile())
+				.getAbsolutePath());
+		setKeyValueStore("huge_avatar", new File(Setup.class.getResource("/huge_image.png").getFile())
+				.getAbsolutePath());
+		setKeyValueStore("gif_avatar", new File(Setup.class.getResource("/avatar.gif").getFile())
 				.getAbsolutePath());
 	}
 }

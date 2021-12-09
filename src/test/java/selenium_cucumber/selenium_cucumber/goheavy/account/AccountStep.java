@@ -44,13 +44,13 @@ public class AccountStep extends Steps {
 		WebElement settings = li.get("Settings");
 		Setup.getActions().moveToElement(settings).click().perform();
 		accountPage.waitForElementToBePresent(AccountSettingsItem);
-		WebElement el2 = settings.findElement(AccountSettingsItem);
-		Setup.getActions().moveToElement(el2).click().perform();
+		WebElement elementTwo = settings.findElement(AccountSettingsItem);
+		Setup.getActions().moveToElement(elementTwo).click().perform();
 		accountPage.waitForSpinningElementDisappear();
 	}
 
 	public void fillValidData() {
-		accountPage.getFromElements();
+		accountPage.getFormElements();
 	}
 
 	public void clicksUpdate() {

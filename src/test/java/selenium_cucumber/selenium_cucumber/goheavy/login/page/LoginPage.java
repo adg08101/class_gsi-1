@@ -24,11 +24,10 @@ public class LoginPage extends PageObject {
 	}
 
 	public HashMap<String, WebElement> fillCredentials(String email, String password) {
-
-		WebElement email_element = getWebElement(By.id(password_id));
-		email_element.sendKeys(password);
 		WebElement pass_element = getWebElement(By.id(user_id));
 		pass_element.sendKeys(email);
+		WebElement email_element = getWebElement(By.id(password_id));
+		email_element.sendKeys(password);
 
 		HashMap<String, WebElement> eles = new HashMap<String, WebElement>();
 		eles.put("email", email_element);
@@ -42,8 +41,8 @@ public class LoginPage extends PageObject {
 	}
 	
 	public void waitForElelemtDisappear() throws Exception{		
-		Setup.getWait().waitUntilElementDisappear(By.id(password_id), 5000);
-		Setup.getWait().waitUntilElementDisappear(By.id(user_id), 5000);		
+		Setup.getWait().waitUntilElementDisappear(By.id(password_id));
+		Setup.getWait().waitUntilElementDisappear(By.id(user_id));
 	}
 
 }
