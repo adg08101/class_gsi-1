@@ -56,7 +56,8 @@ public class AccountPage extends PageObject {
 		Setup.getActions().moveToElement(element).build().perform();
 		//TODO: Explain element clear
 		clearTextElementText(element);
-		Setup.getActions().sendKeys(element, Setup.getFaker().phoneNumber().cellPhone()).build().perform();
+		Setup.getActions().sendKeys(element, "(305)-" + Setup.getFaker().phoneNumber().cellPhone())
+				.build().perform();
 		//TODO: Explain element validation
 		checkRequiredMessageForTextInput(testCases.invalidFormatTextBoxMessage);
 		Setup.getWait().thread(1000);
@@ -85,8 +86,8 @@ public class AccountPage extends PageObject {
 				Assert.assertEquals("This field is required", element.getText());
 				break;
 			case invalidFormatTextBoxMessage:
-				Assert.assertEquals(element.getText(), "Only letters and the special characters (' -) are allowed. " +
-						"50 characters maximum");
+				Assert.assertEquals(element.getText(), "Only letters, numbers, and the special characters " +
+						"(' -) are allowed. 50 characters maximum");
 				break;
 			default:
 		}
@@ -146,10 +147,12 @@ public class AccountPage extends PageObject {
 				build().perform();
 
 		//TODO Happy case for email
-		by = By.id("email");
-		clearTextElementText(getWebElement(by));
-		Setup.getActions().sendKeys(getWebElement(by), Setup.getFaker().internet().emailAddress()).
-				build().perform();
+		//Commented due to the this changes credentials
+		//Do Not Uncomment
+		//by = By.id("email");
+		//clearTextElementText(getWebElement(by));
+		//Setup.getActions().sendKeys(getWebElement(by), Setup.getFaker().internet().emailAddress()).
+		//		build().perform();
 
 		//TODO Happy case for address
 		by = By.id("address");
@@ -168,13 +171,13 @@ public class AccountPage extends PageObject {
 		switch (testCase) {
 			case firstNamePlaceholder:
 				//TODO Explain this (Issue detected)
-				//Assert.assertTrue(getWebElement(by).getAttribute("placeholder").equals("Enter First Name"));
-				Assert.assertEquals("Enter the first name", getWebElement(by).getAttribute("placeholder"));
+				Assert.assertTrue(getWebElement(by).getAttribute("placeholder").equals("Enter First Name"));
+				//Assert.assertEquals("Enter the first name", getWebElement(by).getAttribute("placeholder"));
 				break;
 			case lastNamePlaceholder:
 				//TODO Explain this (Issue detected)
-				//Assert.assertEquals("Enter Last Name", getWebElement(by).getAttribute("placeholder"));
-				Assert.assertEquals("Enter the last name", getWebElement(by).getAttribute("placeholder"));
+				Assert.assertEquals("Enter Last Name", getWebElement(by).getAttribute("placeholder"));
+				//Assert.assertEquals("Enter the last name", getWebElement(by).getAttribute("placeholder"));
 				break;
 			default:
 				return;
