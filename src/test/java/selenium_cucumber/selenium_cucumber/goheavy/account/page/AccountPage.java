@@ -8,10 +8,6 @@ import selenium_cucumber.selenium_cucumber.general.PageObject;
 import selenium_cucumber.selenium_cucumber.general.Setup;
 import selenium_cucumber.selenium_cucumber.general.testCases;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 public class AccountPage extends PageObject {
 	private String closePopupIconXpath;
 
@@ -171,7 +167,7 @@ public class AccountPage extends PageObject {
 		switch (testCase) {
 			case firstNamePlaceholder:
 				//TODO Explain this (Issue detected)
-				Assert.assertTrue(getWebElement(by).getAttribute("placeholder").equals("Enter First Name"));
+				Assert.assertEquals("Enter First Name", getWebElement(by).getAttribute("placeholder"));
 				//Assert.assertEquals("Enter the first name", getWebElement(by).getAttribute("placeholder"));
 				break;
 			case lastNamePlaceholder:
@@ -180,7 +176,6 @@ public class AccountPage extends PageObject {
 				//Assert.assertEquals("Enter the last name", getWebElement(by).getAttribute("placeholder"));
 				break;
 			default:
-				return;
 		}
 	}
 
