@@ -1,67 +1,73 @@
 package selenium_cucumber.selenium_cucumber.general;
 
-import io.cucumber.datatable.internal.difflib.myers.MyersDiff;
+//import io.cucumber.datatable.internal.difflib.myers.MyersDiff;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-
-import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
+import java.io.File;
+//import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
+//import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.PageLoadStrategy;
+//import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-//import org.openqa.selenium.remote.DesiredCapabilities;
 
 public final class Setup {
 	private static WebDriver driver;
-	private static HashMap<String, Object> store = new HashMap();
-	private static JavascriptExecutor jsExecutor;
+	private static HashMap<String, Object> store = new HashMap<String, Object>();
 	private static Actions actions;
 	private static WaitingObject waitingObject;
+	private static String defaultURL = "https://webgoheavy-qa.gsoftinnovation.net/admin";
+	private static JavascriptExecutor jsExecutor;
+	public static Map<String, Object> timeouts;
 
-	@Before
+	 @Before
 	public void InitSetup() {
-		String browser = System.getProperty("browser");
+		System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
+		//String browser = System.getProperty("browser");
 		System.setProperty("webdriver.chrome.silentOutput", "true");
-		System.setProperty("webdriver.chrome.driver", "D://Documents//QA-Automation//Google//chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
-
-		Map<String, Object> timeouts = new HashMap();
+		timeouts = new HashMap<String, Object>();
 		timeouts.put("implicit", 50);
 		timeouts.put("pageLoad", 5000000);
 		timeouts.put("script", 300000);
 		options.setCapability("timeouts", timeouts);
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
-
 		initObject();
 	}
 
 	private static void initObject() {
 		waitingObject = new WaitingObject(driver);
 		actions = new Actions(driver);
-		jsExecutor = (JavascriptExecutor) driver;
+		System.setProperty("defaultURL", defaultURL);
+		setJsExecutor((JavascriptExecutor) driver);
 		loadDefaultProperties();
 	}
 
-	public static Object executeScript(String script,Object... arg) {
-		return jsExecutor.executeScript(script,arg);
+	public static Map<String, Object> getTimeouts() {
+		return timeouts;
 	}
 
-	public static Actions getActions() {
-		return actions;
+	void setTimeouts(Map<String, Object> timeouts) {
+		Setup.timeouts = timeouts;
+	}
+
+	public static Object executeScript(String script, Object... arg) {
+		return getJsExecutor().executeScript(script,arg);
 	}
 
 	public static WebDriver getDriver() {
 		return driver;
+	}
+
+	public static Actions getActions() {
+		return actions;
 	}
 
 	/**
@@ -97,27 +103,34 @@ public final class Setup {
 	 */
 	public static void openUrl(String url) {
 		driver.get(url);
-		waitingObject.waitForLoading(36000);
-
+		//waitingObject.waitForLoading(3600);
 	}
 
 	@After
 	public void close() {
+		Setup.getWait().thread(3000);
 		driver.close();
 	}
 
 	private static void loadDefaultProperties() {
-		InputStream input = ClassLoader.class.getResourceAsStream("/defaultproperties.properties");
+		InputStream input = Setup.class.getResourceAsStream("/defaultproperties.properties");
+
 		Properties pop = new Properties();
 		try {
 			pop.load(input);
-		} catch (java.io.IOException e) {
-
-		}
+		} catch (java.io.IOException e) {}
 		setKeyValueStore("defaultProperties", pop);
-
-		setKeyValueStore("avatar", new File(ClassLoader.class.getResource("/avatar.png").getFile()).getAbsolutePath());
-
+		int number = (int) (Math.random() * 4 + 1);
+		String avatar_name = "/avatar(" + String.valueOf(number) + ").png";
+		setKeyValueStore("avatar", new File(Setup.class.getResource(avatar_name).getFile())
+				.getAbsolutePath());
 	}
 
+	public static JavascriptExecutor getJsExecutor() {
+		return jsExecutor;
+	}
+
+	public static void setJsExecutor(JavascriptExecutor jsExecutor) {
+		Setup.jsExecutor = jsExecutor;
+	}
 }

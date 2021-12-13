@@ -7,13 +7,13 @@ import java.util.HashMap;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
+//import org.openqa.selenium.interactions.Action;
+//import org.openqa.selenium.interactions.Actions;
 
 import selenium_cucumber.selenium_cucumber.general.Setup;
 import selenium_cucumber.selenium_cucumber.general.Steps;
 import selenium_cucumber.selenium_cucumber.goheavy.account.page.AccountPage;
-import selenium_cucumber.selenium_cucumber.goheavy.login.page.LoginPage;
+//import selenium_cucumber.selenium_cucumber.goheavy.login.page.LoginPage;
 
 public class AccountStep extends Steps {
 
@@ -21,7 +21,6 @@ public class AccountStep extends Steps {
 
 	public AccountStep() {
 		accountPage = new AccountPage();
-
 	}
 
 	@Override
@@ -29,7 +28,6 @@ public class AccountStep extends Steps {
 		String path = accountPage.getPagePath().toLowerCase();
 		Assert.assertTrue(" The path privide is not correct in the url. path: " + path,
 				accountPage.getCurrentUrl().toLowerCase().contains(path));
-
 		try {
 			accountPage.waitForSpinningElementDissapear();
 			accountPage.getFrom();
@@ -49,7 +47,6 @@ public class AccountStep extends Steps {
 		Setup.getActions().moveToElement(el2).click().perform();
 		accountPage.waitForSpinningElementDissapear();
 		Setup.getWait().thread(4000);
-
 	}
 
 	public void fillValidData() {
@@ -63,7 +60,6 @@ public class AccountStep extends Steps {
 
 	public void checkSpinningAppears() {
 		accountPage.waitForSpinningElementDissapear();
-
 	}
 
 	public void checkUpdateMessage(String string) {
@@ -76,11 +72,38 @@ public class AccountStep extends Steps {
 		// Checking messages match
 		Assert.assertEquals("Update notification message was not found.", string.toLowerCase(),
 				notifEle.getText().toLowerCase());
-		
+
 		// Checking that popoup is in the right
 		String style = parent.getAttribute("style");
 		Assert.assertTrue("Poup s not in the right corner.", style.contains("right: 0px"));
 
 	}
 
+	public void clearMandatoryField(String field, String inputType) {
+		// TODO Auto-generated method stub
+		try {
+			Assert.assertTrue(accountPage.clear_mandatory_field(field, inputType));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void systemShowsErrorMessage(String message, String field, String inputType) {
+		// TODO Auto-generated method stub
+		try {
+			Assert.assertTrue(accountPage.get_required_field_message(field, inputType).getText().equals(message));
+		} catch(AssertionError e) {
+			System.out.println("----------------------------");
+			System.out.println("***Error*** on test result:");
+			System.out.println("Expected text: " + message);
+			System.out.println("Result text: " + accountPage.get_required_field_message(field, inputType).getText());
+			System.out.println("----------------------------");
+		}
+	}
+
+	public void setsInvalidDataToField(String field, String fieldType) {
+		// TODO Auto-generated method stub
+		Assert.assertTrue(accountPage.set_invalid_data_to_field(field, fieldType));
+	}
 }
