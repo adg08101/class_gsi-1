@@ -1,5 +1,6 @@
 Feature: Account Settings
-  As a: GoHeavy Admin / Fleet Owner / Dispatcher / Document Approver/Retailer Admin/Store Admin/ Store User/Customer				
+  As a: GoHeavy Admin / Fleet Owner / Dispatcher / Document Approver / Retailer Admin / Store Admin /
+  Store User / Customer
   I Want To: edit profile information				
   So That: I can update my user profile.
 

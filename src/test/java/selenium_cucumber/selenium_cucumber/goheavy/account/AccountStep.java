@@ -1,86 +1,82 @@
 package selenium_cucumber.selenium_cucumber.goheavy.account;
 
-import static org.junit.Assert.fail;
-
-import java.util.HashMap;
-
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium_cucumber.selenium_cucumber.general.Setup;
 import selenium_cucumber.selenium_cucumber.general.Steps;
 import selenium_cucumber.selenium_cucumber.goheavy.account.page.AccountPage;
-import selenium_cucumber.selenium_cucumber.goheavy.login.page.LoginPage;
+import java.util.HashMap;
+
+import static org.junit.Assert.fail;
 
 public class AccountStep extends Steps {
 
-	private AccountPage accountPage;
+	private final AccountPage accountPage;
 
 	public AccountStep() {
 		accountPage = new AccountPage();
-
 	}
 
 	@Override
 	public void checkPage() {
+		accountPage.waitForSpinningElementDisappear();
+		accountPage.waitForElementToBePresent(By.xpath(getHeaderXpath()));
 		String path = accountPage.getPagePath().toLowerCase();
-		Assert.assertTrue(" The path privide is not correct in the url. path: " + path,
-				accountPage.getCurrentUrl().toLowerCase().contains(path));
-
+		Assert.assertTrue(" The path provided is not correct in the url. path: " + path,
+				Setup.getDriverWait().until(ExpectedConditions.urlContains(path)));
 		try {
-			accountPage.waitForSpinningElementDissapear();
-			accountPage.getFrom();
+			accountPage.getForm();
 		} catch (Exception e) {
 			fail("The view do not match with Account page.");
 		}
 	}
 
 	public void openAccountSetting() {
-		HashMap<String, WebElement> li = accountPage
-				.getMenu(By.xpath("//span[@aria-label='setting']/ancestor::span[@class='ant-menu-title-content']"));
-		WebElement setting = li.get("Settings");
-		Setup.getActions().moveToElement(setting).click().perform();
-		Setup.getWait().thread(400);
-		accountPage.waitForSpinningElementDissapear();
-		WebElement el2 = setting.findElement(By.xpath("//span[@aria-label='profile']/ancestor::li[@role='menuitem']"));
-		Setup.getActions().moveToElement(el2).click().perform();
-		accountPage.waitForSpinningElementDissapear();
-		Setup.getWait().thread(4000);
+		By menuItem = By.xpath("//span[@aria-label='setting']/ancestor::span[@class='ant-menu-title-content']/" +
+				"span[text()='Settings']");
+		By AccountSettingsItem = By.xpath("//span[@aria-label='profile']/ancestor::li[@role='menuitem']/" +
+				"descendant::span[text()='Account Settings']");
 
+		accountPage.waitForElementToBePresent(menuItem);
+		HashMap<String, WebElement> li = accountPage.getMenu(menuItem);
+		WebElement settings = li.get("Settings");
+		Setup.getActions().moveToElement(settings).click().perform();
+		accountPage.waitForElementToBePresent(AccountSettingsItem);
+		WebElement elementTwo = settings.findElement(AccountSettingsItem);
+		Setup.getActions().moveToElement(elementTwo).click().perform();
+		accountPage.waitForSpinningElementDisappear();
 	}
 
 	public void fillValidData() {
-		accountPage.getFromElements();
+		accountPage.getFormElements();
 	}
 
 	public void clicksUpdate() {
 		Setup.getActions().moveToElement(accountPage.getUpdateButton()).click().perform();
-
 	}
 
 	public void checkSpinningAppears() {
-		accountPage.waitForSpinningElementDissapear();
-
+		accountPage.waitForSpinningElementDisappear();
 	}
 
 	public void checkUpdateMessage(String string) {
-
-		WebElement notifEle = accountPage.getPopupMessage();
+		WebElement notificationEle = accountPage.getPopupMessage();
 		Setup.getWait().thread(2);
-		WebElement parent = notifEle
+		WebElement parent = notificationEle
 				.findElement(By.xpath("ancestor::div[contains(@class,'ant-notification-topRight')]"));
 
 		// Checking messages match
 		Assert.assertEquals("Update notification message was not found.", string.toLowerCase(),
-				notifEle.getText().toLowerCase());
+				notificationEle.getText().toLowerCase());
 		
-		// Checking that popoup is in the right
+		// Checking that popup is in the right
 		String style = parent.getAttribute("style");
-		Assert.assertTrue("Poup s not in the right corner.", style.contains("right: 0px"));
-
+		Assert.assertTrue("Popup is not in the right corner.", style.contains("right: 0px"));
 	}
 
+	public String getHeaderXpath() {
+		return accountPage.getHeaderTextXpath();
+	}
 }

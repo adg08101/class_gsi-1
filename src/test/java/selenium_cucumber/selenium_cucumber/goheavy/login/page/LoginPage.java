@@ -1,7 +1,6 @@
 package selenium_cucumber.selenium_cucumber.goheavy.login.page;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -16,7 +15,7 @@ public class LoginPage extends PageObject {
 
 	public LoginPage() {
 		super();
-		this.urlpath = "login";
+		this.urlPath = "login";
 
 	}
 	
@@ -25,11 +24,10 @@ public class LoginPage extends PageObject {
 	}
 
 	public HashMap<String, WebElement> fillCredentials(String email, String password) {
-
-		WebElement email_element = getWebElement(By.id(password_id));
-		email_element.sendKeys(password);
 		WebElement pass_element = getWebElement(By.id(user_id));
 		pass_element.sendKeys(email);
+		WebElement email_element = getWebElement(By.id(password_id));
+		email_element.sendKeys(password);
 
 		HashMap<String, WebElement> eles = new HashMap<String, WebElement>();
 		eles.put("email", email_element);
@@ -43,8 +41,8 @@ public class LoginPage extends PageObject {
 	}
 	
 	public void waitForElelemtDisappear() throws Exception{		
-		Setup.getWait().waitUntilElementDisappear(By.id(password_id), 5000);
-		Setup.getWait().waitUntilElementDisappear(By.id(user_id), 5000);		
+		Setup.getWait().waitUntilElementDisappear(By.id(password_id));
+		Setup.getWait().waitUntilElementDisappear(By.id(user_id));
 	}
 
 }

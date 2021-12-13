@@ -1,8 +1,5 @@
 package selenium_cucumber.selenium_cucumber.general;
 
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,9 +7,11 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
 public class WaitingObject {
 
-	private WebDriver driver;
+	private final WebDriver driver;
 
 	public WaitingObject(WebDriver driver) {
 		this.driver = driver;
@@ -21,25 +20,18 @@ public class WaitingObject {
 
 	/**
 	 * @executeExpectedCondition Method to execute the wait statement
-	 * @param expected
-	 * @param message
-	 * @param time
+	 * @param expected Expected Condition Object
+	 * @param message Message to Show
 	 */
-	public void executeExpectedCondition(ExpectedCondition expected, String message, int time) {
-		waitMethod(10).withMessage(message).until(expected);
+	@SuppressWarnings("unchecked")
+	public void executeExpectedCondition(ExpectedCondition expected, String message) {
+		waitMethod().withMessage(message).until(expected);
 	}
+
 
 	/**
 	 *
-	 * @param time
-	 */
-	public void setImplicityWait(int time) {
-
-	}
-
-	/**
-	 *
-	 * @param time
+	 * @param time Time to wait for loading
 	 */
 	public void waitForLoading(long time) {
 		driver.manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
@@ -47,32 +39,21 @@ public class WaitingObject {
 
 	/**
 	 *
-	 * @param time
+	 * @param by By selector
 	 */
-	public void implicityWait(long time) {
-		driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
-	}
-
-	/**
-	 *
-	 * @param by
-	 * @param time
-	 */
-	public void waitUntilElementAppear(By by, int time) {
+	public void waitUntilElementAppear(By by) {
 		WebElement element1 = driver.findElement(by);
 		ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element1);
 		String mss = "Element " + element1 + " not found";
-		executeExpectedCondition(expectedCondition, mss, time);
-
+		executeExpectedCondition(expectedCondition, mss);
 	}
 
 	/**
 	 *
-	 * @param by
-	 * @param time
+	 * @param by By selector to use
 	 */
-	public void waitUntilElementDisappear(By by, int time) {
-		WebElement element1 = null;
+	public void waitUntilElementDisappear(By by) {
+		WebElement element1;
 		try {
 			element1 = driver.findElement(by);
 		} catch (Exception e) {
@@ -80,46 +61,44 @@ public class WaitingObject {
 		}
 		ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(element1);
 		String mss = "Element " + element1 + " still in dom ";
-		executeExpectedCondition(expectedCondition, mss, time);
+		executeExpectedCondition(expectedCondition, mss);
 
 	}
 
 	/**
 	 *
-	 * @param time
-	 * @return
+	 * @return WebDriver Wait
 	 */
-	private WebDriverWait waitMethod(long time) {
-		return new WebDriverWait(this.driver, time);
+	private WebDriverWait waitMethod() {
+		return new WebDriverWait(this.driver, 10);
 	}
 
 	/**
 	 *
-	 * @param by
-	 * @param msg
-	 * @return
+	 * @param by By var
+	 * @param msg String Message
 	 */
-	public WebElement visibilityOfElement(By by, String msg) {
-		WebDriverWait wait = waitMethod(10);
+	public void visibilityOfElement(By by, String msg) {
+		WebDriverWait wait = waitMethod();
 		if (!msg.equals("")) {
 			wait.withMessage(msg);
 		}
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 	}
 
 	/**
 	 *
-	 * @param expectedMssg
+	 * @param expectedMessage Expected Message
 	 */
-	public void textAppear(String expectedMssg) {
-		visibilityOfElement(By.xpath("//*[contains(text(),'" + expectedMssg + "')]"),
-				"Unable to locate text '" + expectedMssg + "'");
-
+	@SuppressWarnings("unused")
+	public void textAppear(String expectedMessage) {
+		visibilityOfElement(By.xpath("//*[contains(text(),'" + expectedMessage + "')]"),
+				"Unable to locate text '" + expectedMessage + "'");
 	}
 
 	/**
 	 *
-	 * @param time
+	 * @param time Time to wait
 	 */
 	public void thread(long time) {
 		try {
@@ -131,9 +110,10 @@ public class WaitingObject {
 
 	/**
 	 *
-	 * @param save
+	 * @param save Save element to be clicked
 	 */
+	@SuppressWarnings("unused")
 	public void waiForElementClick(WebElement save) {
-		waitMethod(10).until(ExpectedConditions.elementToBeClickable(save)).click();
+		waitMethod().until(ExpectedConditions.elementToBeClickable(save)).click();
 	}
 }

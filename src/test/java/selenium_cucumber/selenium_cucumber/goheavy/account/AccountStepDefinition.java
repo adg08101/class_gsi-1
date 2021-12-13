@@ -4,7 +4,7 @@ import io.cucumber.java.en.*;
 
 public class AccountStepDefinition {
 
-	private AccountStep accountStep;
+	private final AccountStep accountStep;
 
 	public AccountStepDefinition() {
 		accountStep = new AccountStep();
@@ -14,7 +14,6 @@ public class AccountStepDefinition {
 	public void the_user_is_in_view() {
 		accountStep.openAccountSetting();
 		accountStep.checkPage();
-
 	}
 
 	@When("User insert valid data")
@@ -30,12 +29,10 @@ public class AccountStepDefinition {
 	@Then("The system saves the user profile information")
 	public void the_system_saves_the_user_profile_information() {
 		accountStep.checkSpinningAppears();
-
 	}
 
 	@Then("The system displays popup with success message: {string}")
 	public void the_system_displays_popup_with_success_message(String string) {
 		accountStep.checkUpdateMessage(string);
-
 	}
 }
