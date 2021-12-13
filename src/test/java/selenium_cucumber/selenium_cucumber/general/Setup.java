@@ -22,7 +22,7 @@ public final class Setup {
 	private static HashMap<String, Object> store = new HashMap<String, Object>();
 	private static Actions actions;
 	private static WaitingObject waitingObject;
-	private static String defaultURL = "https://webgoheavy-qa.gsoftinnovation.net/admin";
+	private static String defaultURL = "";
 	private static JavascriptExecutor jsExecutor;
 	public static Map<String, Object> timeouts;
 
@@ -45,7 +45,6 @@ public final class Setup {
 	private static void initObject() {
 		waitingObject = new WaitingObject(driver);
 		actions = new Actions(driver);
-		System.setProperty("defaultURL", defaultURL);
 		setJsExecutor((JavascriptExecutor) driver);
 		loadDefaultProperties();
 	}
@@ -122,6 +121,7 @@ public final class Setup {
 		setKeyValueStore("defaultProperties", pop);
 		int number = (int) (Math.random() * 4 + 1);
 		String avatar_name = "/avatar(" + String.valueOf(number) + ").png";
+		System.setProperty("defaultURL", pop.getProperty("default.URL"));
 		setKeyValueStore("avatar", new File(Setup.class.getResource(avatar_name).getFile())
 				.getAbsolutePath());
 	}
