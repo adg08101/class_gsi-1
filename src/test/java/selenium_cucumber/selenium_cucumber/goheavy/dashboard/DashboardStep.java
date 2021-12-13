@@ -10,15 +10,12 @@ public class DashboardStep extends Steps{
 
 	public DashboardStep() {
 		dashboard = new Dashboard();
-
 	}
 
-	
 	public void checkPage() {
 		String path = dashboard.getPagePath().toLowerCase();
-		Assert.assertTrue(" The path privide is not correct in the url. path: " + path,
+		Assert.assertTrue("The path provided is not correct in the url. path: " + path,
 				dashboard.getCurrentUrl().toLowerCase().contains(path));
-
 	}
 
 }
