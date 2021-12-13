@@ -1,6 +1,5 @@
 package selenium_cucumber.selenium_cucumber.general;
 
-//import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,11 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitingObject {
 
-	private final WebDriver driver;
+	private WebDriver driver;
 
 	public WaitingObject(WebDriver driver) {
 		this.driver = driver;
-		this.waitForLoading(20);
 	}
 
 	/**
@@ -103,7 +101,7 @@ public class WaitingObject {
 		if (!msg.equals("")) {
 			wait.withMessage(msg);
 		}
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		return wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
 	}
 
 	/**
