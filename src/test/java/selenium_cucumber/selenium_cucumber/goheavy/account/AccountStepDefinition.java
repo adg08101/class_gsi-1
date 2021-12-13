@@ -11,7 +11,7 @@ public class AccountStepDefinition {
 		accountStep = new AccountStep();
 		generalSteps = new GeneralSteps();
 	}
-	
+
 	@Given("The user is in \"Account Settings\" view")
 	public void the_user_is_in_account_settings_view() {
 		try {
@@ -42,17 +42,17 @@ public class AccountStepDefinition {
 	public void the_system_displays_popup_with_success_message(String string) {
 		accountStep.checkUpdateMessage(string);
 	}
-	
+
 	@When("The user clears a mandatory {string} on {string}")
 	public void the_user_clears_a_mandatory_field(String field, String inputType) {
 		accountStep.clearMandatoryField(field, inputType);
 	}
-	
+
 	@Then("The system displays an error {string} for {string} on {string}.")
 	public void the_system_shows_an_error_message_for_field(String message, String field, String inputType) {
 		accountStep.systemShowsErrorMessage(message, field, inputType);
 	}
-	
+
 	@When("The user sets invalid data to {string} on {string}")
 	public void the_user_sets_invalid_data(String field, String input_type) {
 		System.out.println(field + " " + input_type);

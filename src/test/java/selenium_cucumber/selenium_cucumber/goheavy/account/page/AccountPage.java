@@ -26,7 +26,7 @@ public class AccountPage extends PageObject {
 	public WebElement getFrom() {
 		return this.getWebElement(By.cssSelector("#account-settings"));
 	}
-	
+
 	public void setWebElementText(By by, String value) {
 		WebElement element = getWebElement(by);
 		clear_element_text(element);
@@ -36,10 +36,10 @@ public class AccountPage extends PageObject {
 	public void getFromElements() {
 		waitForSpinningElementDissapear();
 		Setup.getWait().thread(7000);
-		
+
 		By avatar_element = By.xpath("//input[@type='file']");
 		getWait().until(ExpectedConditions.presenceOfElementLocated(avatar_element));
-		
+
 		//Setting avatar
 		WebElement photo = this.getWebElement(avatar_element);
 		String url = (String) Setup.getValueStore("avatar");
@@ -53,26 +53,26 @@ public class AccountPage extends PageObject {
 		setWebElementText(By.xpath("//textarea[@id='address']"), getFaker().address().fullAddress());
 		setWebElementText(By.xpath("//input[@id='addressCity']"), getFaker().address().cityName());
 		setWebElementText(By.xpath("//input[@id='addressZipCode']"), getFaker().address().zipCode());
-		
+
 		// Scrolling the page to get the element activated
 		this.scroll(formScroll, By.id("addressStateId"));
-		
+
 		waitForSpinningElementDissapear();
 
 		// Getting State
 		By state_element = By.id("addressStateId");
 		getWait().until(ExpectedConditions.elementToBeClickable(state_element));
-		
+
 		WebElement stateInput = this.getWebElement(state_element);
 		Setup.getActions().moveToElement(stateInput).click().perform();
-		
+
 		By state_list_elements = By.xpath("//div[@id='addressStateId_list']/"
 				+ "ancestor::div[contains(@class,'ant-select-dropdown')]/descendant::div[contains("
 				+ "@class,'ant-select-item ant-select-item-option')]/span");
 		getWait().until(ExpectedConditions.presenceOfElementLocated(state_list_elements));
-	
+
 		List<WebElement> addressStateId_list = this.getWebElements(state_list_elements);
-		
+
 		WebElement addr = addressStateId_list.get(new Random().nextInt(addressStateId_list.size()));
 		Setup.getActions().moveToElement(addr).click().perform();
 	}
@@ -86,12 +86,12 @@ public class AccountPage extends PageObject {
 				"Not element message");
 		return this.getWebElement(By.xpath("//div[@class='ant-notification-notice-message']"));
 	}
-	
+
 	public void clear_element_text(WebElement element) {
 		int length = element.getAttribute("value").length();
 		for (int i = 0;i <= length;i++) {
 			Setup.getActions().sendKeys(element, Keys.BACK_SPACE).perform();
-		}	
+		}
 	}
 
 	public boolean clear_mandatory_field(String field, String inputType) throws Exception {
@@ -139,7 +139,7 @@ public class AccountPage extends PageObject {
 				setWebElementText(element_xpath, "000");
 			else if (field.contains("address"))
 				setWebElementText(element_xpath, "/// *** /// ***");
-			
+
 			Setup.getWait().thread(500);
 			return true;
 		} catch(Exception e) {

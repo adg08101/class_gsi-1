@@ -24,34 +24,34 @@ public class LoginStep extends Steps {
 		//The user is at the login page
 		Assert.assertTrue("The path provided is not correct in the url. path: " + path,
 				loginPage.getCurrentUrl().toLowerCase().contains(path));
-		
+
 		//The system displays the login form with a background image
 		Assert.assertTrue("The login Form is not displayed", loginPage.getElement(
 				By.xpath(loginPage.getLoginFormXpath())).isDisplayed());
 
 		//Get the system logo and name
-		Assert.assertTrue("The login System Logo and Image is not displayed", 
+		Assert.assertTrue("The login System Logo and Image is not displayed",
 				loginPage.getCompanyLogoAndImage());
-		
+
 		//Get the Login H1
 		Assert.assertTrue("The Login H1 is not displayed", loginPage.getElement(
 				By.xpath(loginPage.getLoginH1Xpath())).isDisplayed());
-		
+
 		//The show/hide button is displayed
-		Assert.assertTrue("The Show/Hide Password Button is not clickable", 
+		Assert.assertTrue("The Show/Hide Password Button is not clickable",
 				loginPage.getElement(By.xpath(loginPage.getLoginPassShowHideButtonXpath())).isDisplayed());
-		
+
 		//The Login Button is Enabled
 				Assert.assertTrue("The Login Submit Button is not displayed", loginPage.getElement(
 						By.xpath(loginPage.getFormSubmitButtonXpath())).isEnabled());
-				
+
 		//The "Forgot Password?" link is displayed
 		Assert.assertTrue("The Forgot Password is not Displayed", loginPage.getElement(
 						By.xpath(loginPage.getForgotPassLinkXpath())).isEnabled());
-				
+
 		//The show/hide button is clickable
 		loginPage.clickOn(By.xpath(loginPage.getLoginPassShowHideButtonXpath()));
-		
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -65,7 +65,7 @@ public class LoginStep extends Steps {
 		this.openURL();
 		checkPage();
 	}
-	
+
 	public void user_insert_email_and_password(String email, String password) {
 		loginPage.fillCredentials(email, password);	}
 
@@ -84,7 +84,7 @@ public class LoginStep extends Steps {
 			fail("The login view did not disappear.");
 		}
 	}
-	
+
 	public void the_system_shows_error_message(String message) {
 		try {
 			Assert.assertTrue(loginPage.getMissingFieldsErrorMesssage(message));
@@ -92,7 +92,7 @@ public class LoginStep extends Steps {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	public void the_system_shows_error_message_for_not_registed(String message) throws Exception {
 		try {
 			Assert.assertTrue(loginPage.getNotRegisteredInfoErrorMessage(message));
@@ -100,7 +100,7 @@ public class LoginStep extends Steps {
 			fail("The element does not shows or Message is not the one expected.");
 		}
 	}
-	
+
 	public void send_logout_request_to_keep_on_testing() {
 		try {
 			generalSteps.logoutProcess();

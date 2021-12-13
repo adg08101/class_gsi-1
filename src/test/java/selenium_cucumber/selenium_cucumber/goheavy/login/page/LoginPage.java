@@ -11,7 +11,7 @@ public class LoginPage extends PageObject {
 	String user_id = "email";
 	String password_id = "password";
 	String logo_alt_text = "Site Logo";
-	String logo_image_src = 
+	String logo_image_src =
 			"https://goheavy-qa.gsoftinnovation.net/storage/public/setting/wBkh9qGXs0tiTOIJaA0i4GT18fSQsAKs0wzhfo5z.png";
 	String LoginH1Xpath;
 	String LoginFormXpath;
@@ -45,7 +45,7 @@ public class LoginPage extends PageObject {
 		setWaitTime(5000);
 		this.urlpath = "login";
 	}
-	
+
 	public WebElement getElement(By by) throws Exception {
 		return getWebElement(by);
 	}
@@ -161,12 +161,12 @@ public class LoginPage extends PageObject {
 	public void setLoginFormXpath(String loginFormXpath) {
 		LoginFormXpath = loginFormXpath;
 	}
-	
+
 	public boolean getCompanyLogoAndImage() throws Exception {
 		setElement(By.xpath(getCompanyLogoXpath()));
 		getWait().until(ExpectedConditions.presenceOfElementLocated(getElement()));
 		WebElement element = getElement(By.xpath(getCompanyLogoXpath()));
-		return element.isDisplayed() && element.getAttribute("alt").equals(logo_alt_text) && 
+		return element.isDisplayed() && element.getAttribute("alt").equals(logo_alt_text) &&
 				element.getAttribute("src").equals(logo_image_src);
 	}
 
@@ -177,13 +177,13 @@ public class LoginPage extends PageObject {
 		email_element.sendKeys(getEmail());
 		WebElement pass_element = getWebElement(By.id(password_id));
 		pass_element.sendKeys(getPassword());
-		
+
 		getEles().put("email", email_element);
 		getEles().put("password", pass_element);
-		
+
 		return eles;
 	}
-	
+
 	public boolean getMissingFieldsErrorMesssage(String message) {
 		setMissingRequiredFieldText(message);
 
@@ -213,10 +213,10 @@ public class LoginPage extends PageObject {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		return true;
 	}
-	
+
 	public boolean getNotRegisteredInfoErrorMessage(String message) throws Exception {
 		setElement(By.xpath(getIncorrectEmailOrPassDivXpath()));
 		getWait().until(ExpectedConditions.presenceOfElementLocated(getElement()));
@@ -228,9 +228,9 @@ public class LoginPage extends PageObject {
 	public void clickOn(By by) throws Exception {
 		cliksOnButton(by);
 	}
-	
+
 	public void waitForElelemtDisappear() throws Exception{
 		Setup.getWait().waitUntilElementDisappear(By.id(user_id), getWaitTime());
-		Setup.getWait().waitUntilElementDisappear(By.id(password_id), getWaitTime());		
+		Setup.getWait().waitUntilElementDisappear(By.id(password_id), getWaitTime());
 	}
 }

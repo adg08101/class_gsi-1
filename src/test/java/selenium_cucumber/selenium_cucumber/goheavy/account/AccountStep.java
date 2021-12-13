@@ -72,7 +72,7 @@ public class AccountStep extends Steps {
 		// Checking messages match
 		Assert.assertEquals("Update notification message was not found.", string.toLowerCase(),
 				notifEle.getText().toLowerCase());
-		
+
 		// Checking that popoup is in the right
 		String style = parent.getAttribute("style");
 		Assert.assertTrue("Poup s not in the right corner.", style.contains("right: 0px"));

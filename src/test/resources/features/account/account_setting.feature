@@ -1,9 +1,9 @@
 Feature: Account Settings
-  As a: GoHeavy Admin / Fleet Owner / Dispatcher / Document Approver/Retailer Admin/Store Admin/ Store User/Customer				
-  I Want To: edit profile information				
+  As a: GoHeavy Admin / Fleet Owner / Dispatcher / Document Approver/Retailer Admin/Store Admin/ Store User/Customer
+  I Want To: edit profile information
   So That: I can update my user profile.
 
-  Background: 
+  Background:
     Given Any "user" is logged
 
   #Scenario: Update Settings
@@ -12,13 +12,13 @@ Feature: Account Settings
   #  And Clicks on the "Update" button
   #  Then The system saves the user profile information
   #  And The system displays popup with success message: "Your profile was successfully updated"
-    
+
   #Scenario Outline: User Deletes the data of some mandatory field AND clicks on the "Update" button.
 	#	Given The user is in "Account Settings" view
 	#	When The user clears a mandatory <field> on <input_type>
 	#	And Clicks on the "Update" button
 	#	Then The system displays an error <message> for <field> on <input_type>.
-		
+
 	#	Examples:
 	#    | field             | input_type | message								|
 	#    | firstName         | input			 | This field is required |
@@ -28,12 +28,12 @@ Feature: Account Settings
 	#    | address					  | textarea   | This field is required |
 	#    | addressCity       | input      | This field is required |
 	#    | addressZipCode    | input      | This field is required |
-	    
+
   Scenario Outline: Edits the preloaded info with no valid data in some fields.
 		Given The user is in "Account Settings" view
 		When The user sets invalid data to "<field>" on "<input_type>"
 		Then The system displays an error "<message>" for "<field>" on "<input_type>".
-		
+
 	  Examples:
 	    | field             | input_type | message																																			 |
 	    | firstName         | input			 | Only letters and special characters (' -) are allowed. 50 characters maximum  |

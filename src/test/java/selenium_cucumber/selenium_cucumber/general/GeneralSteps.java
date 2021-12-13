@@ -19,7 +19,7 @@ public class GeneralSteps extends PageObject {
 	private By element;
 	private VehicleStep vehicleStep;
 	private DriverStep driverStep;
-	
+
 	public GeneralSteps() {
 		super();
 		setLogOutStep1Xpath("//span[@class='ant-avatar ant-avatar-circle ant-avatar-image']");
@@ -30,10 +30,10 @@ public class GeneralSteps extends PageObject {
 		vehicleStep = new VehicleStep();
 		driverStep = new DriverStep();
 	}
-	
+
 	@Given("The user is in {string} view.")
-	public void the_user_is_in_account_settings_view(String view) {	
-		try {	
+	public void the_user_is_in_account_settings_view(String view) {
+		try {
 			if (view.equals("Vehicles & Insurance List")){
 				vehicleStep.goToAccountSettingsView();
 				vehicleStep.checkPage();
@@ -86,7 +86,7 @@ public class GeneralSteps extends PageObject {
 	void setLogOutStep1Xpath(String logOutStep1Xpath) {
 		LogOutStep1Xpath = logOutStep1Xpath;
 	}
-	
+
 	String getLogOutStep2Xpath() {
 		return LogOutStep2Xpath;
 	}
@@ -94,7 +94,7 @@ public class GeneralSteps extends PageObject {
 	private void setLogOutStep2Xpath(String logOutStep2Xpath) {
 		LogOutStep2Xpath = logOutStep2Xpath;
 	}
-	
+
 	private void waitForSpinnerToDissapear() {
 		waitForSpinningElementDissapear();
 	}
@@ -104,7 +104,7 @@ public class GeneralSteps extends PageObject {
 		Setup.getActions().moveToElement(getWebElement(By.xpath(getLogOutStep1Xpath()))).click().perform();
 		Setup.getActions().moveToElement(getWebElement(By.xpath(getLogOutStep2Xpath()))).click().perform();
 	}
-	
+
 	public void goToAccountSettingsView() throws Exception {
 		waitForSpinnerToDissapear();
 		setElement(By.xpath(getMenuXpath() + getSettingsXpath()));

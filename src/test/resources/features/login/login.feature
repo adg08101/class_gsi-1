@@ -8,12 +8,12 @@ Feature: Login Test Feature
     And Sytem redirects to "<views>" view
     And System Logs Out
 
-    Examples: 
+    Examples:
       | emails             | passwords | views             |
       | novanick@gmail.com | @User123  | Dashboard         |
       | evakings@gmail.com | @User123  | Drivers List      |
       | piper95@gmail.com  | @User123  | Fleet Owners List |
-      
+
   Scenario Outline: At least one mandatory data is not inserted AND clicks on the "Sign in" button.
 	  Given The unauthenticated GoHeavy User is in the Login view
 	  When User insert email "<emails>" and password "<passwords>"
@@ -25,7 +25,7 @@ Feature: Login Test Feature
 	    |                    |           |	This field is required |
 	    | novanick@gmail.com |           |	This field is required |
 	    |                    | @User123  |	This field is required |
-	    
+
   Scenario Outline: Inserts an email address or a password that is not registered in the system.
 	  Given The unauthenticated GoHeavy User is in the Login view
 	  When User insert email "<emails>" and password "<passwords>"
